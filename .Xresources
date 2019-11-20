@@ -14,7 +14,7 @@ URxvt.fading: 25%
 URxvt.tintColor: #262626
 URxvt.internalBorder: 0
 URxvt.externalBorder: 0
-URxvt.font: xft:FuraCode Nerd Font:size=11:antialiasing=true
+URxvt.font: xft:MesloLGS Nerd Font:size=11:antialiasing=true
 
 ! special
 *.foreground:   #c5c8c6

@@ -19,7 +19,11 @@ zplugin ice depth=1; zplugin light romkatv/powerlevel10k
 
 zplugin wait lucid for \
   OMZ::lib/directories.zsh \
-  OMZ::lib/directories.zsh
+  OMZ::plugins/git/git.plugin.zsh \
+  OMZ::plugins/tmux/tmux.plugin.zsh
+
+zplugin ice wait lucid blockf atpull'zplugin creinstall -q .'
+zplugin light zsh-users/zsh-completions
 
 # To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
 [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh

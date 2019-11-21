@@ -19,6 +19,7 @@ zplugin ice depth=1; zplugin light romkatv/powerlevel10k
 
 zplugin wait lucid for \
   OMZ::lib/directories.zsh \
+  OMZ::lib/history.zsh \
   OMZ::plugins/git/git.plugin.zsh \
   OMZ::plugins/tmux/tmux.plugin.zsh
 

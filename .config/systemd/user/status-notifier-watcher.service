@@ -1,0 +1,11 @@
+[Unit]
+Description=status-notifier-watcher daemon for status tray
+
+[Service]
+ExecStart=/home/chris/.cabal/bin/status-notifier-watcher
+Restart=always
+Type=simple
+StandardOutput=journal
+
+[Install]
+WantedBy=default.target

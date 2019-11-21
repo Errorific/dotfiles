@@ -1,0 +1,11 @@
+[Unit]
+Description=Converts old notification tray icons into new ones
+
+[Service]
+ExecStart=xembedsniproxy
+Restart=always
+Type=simple
+StandardOutput=journal
+
+[Install]
+WantedBy=default.target

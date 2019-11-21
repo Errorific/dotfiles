@@ -71,11 +71,13 @@ main =
       -- See https://github.com/taffybar/gtk-sni-tray#statusnotifierwatcher
       -- for a better way to set up the sni tray
       tray = sniTrayNew
+      battText = textBatteryNew "$percentage$% $time$"
       myConfig = defaultSimpleTaffyConfig
         { startWidgets =
             workspaces : map (>>= buildContentsBox) [ layout, windowsW ]
         , endWidgets = map (>>= buildContentsBox)
-          [ batteryIconNew
+          [ battText
+          , batteryIconNew
           , clock
           , tray
           , cpu

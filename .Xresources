@@ -10,6 +10,8 @@ URxvt.transparent: true
 URxvt.scrollBar: false
 URxvt.savelines: 12000
 URxvt.cursorBlink: true
+URxvt.urgentOnBell: true
+URxvt.visualBell: true
 URxvt.fading: 25%
 URxvt.tintColor: #262626
 URxvt.internalBorder: 0

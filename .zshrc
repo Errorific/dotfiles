@@ -17,9 +17,13 @@ setopt auto_cd
 
 zplugin ice depth=1; zplugin light romkatv/powerlevel10k
 
+zplugin snippet OMZ::lib/completion.zsh
+zplugin snippet OMZ::lib/directories.zsh
+zplugin snippet OMZ::lib/history.zsh
+zplugin snippet OMZ::lib/key-bindings.zsh
+
 zplugin wait lucid for \
-  OMZ::lib/directories.zsh \
-  OMZ::lib/history.zsh \
+  OMZ::plugins/common-aliases/common-aliases.plugin.zsh \
   OMZ::plugins/git/git.plugin.zsh \
   OMZ::plugins/tmux/tmux.plugin.zsh
 
@@ -28,3 +32,6 @@ zplugin light zsh-users/zsh-completions
 
 # To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
 [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
+
+autoload -Uz compinit
+compinit

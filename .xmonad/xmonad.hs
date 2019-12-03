@@ -9,6 +9,8 @@ import           XMonad.Hooks.ManageHelpers       (doFullFloat, isFullscreen)
 import qualified XMonad.StackSet as W
 import           XMonad.Layout.NoBorders          (smartBorders)
 import           XMonad.Layout.ThreeColumns       (ThreeCol (ThreeCol, ThreeColMid))
+import XMonad.Util.NamedScratchpad
+import XMonad.Hooks.DynamicLog (def, dynamicLogWithPP, ppSort)
 import qualified Data.Map        as M
 import Graphics.X11.ExtraTypes.XF86
 
@@ -17,12 +19,21 @@ myConfig = def
   , modMask = mod4Mask
   , keys = myKeys
   , layoutHook = myLayoutHook
-  , manageHook = myManageHook <+> manageDocks <+> manageHook def
+  , manageHook = manageDocks <+> manageHook def <+> namedScratchpadManageHook scratchpads <+> myManageHook
+  -- , logHook = dynamicLogWithPP def {
+  --              ppSort = fmap (namedScratchpadFilterOutWorkspace.) $ ppSort def
+  --          }
+  , logHook = dynamicLogWithPP . namedScratchpadFilterOutWorkspacePP $ def
   }
 
 -- The command to use as a launcher, to launch commands that don't have
 -- preset keybindings.
 myLauncher = "rofi -combi-mode window,drun -show combi -modi combi"
+
+scratchpads =
+   [ NS "visor-term" "urxvt -name visor-term" (resource =? "visor-term")
+      (customFloating $ W.RationalRect (0/1) (0/1) (1/1) (1/2))
+   ]
 
 myKeys conf@(XConfig {XMonad.modMask = modMask}) = M.fromList $
 ----------------------------------------------------------------------
@@ -39,6 +50,8 @@ myKeys conf@(XConfig {XMonad.modMask = modMask}) = M.fromList $
      spawn myLauncher) 
   , ((modMask, xK_space),
      spawn myLauncher) 
+
+  , ((modMask, xK_apostrophe), namedScratchpadAction scratchpads "visor-term")
   
   -- Mute volume.
   , ((0, xF86XK_AudioMute),

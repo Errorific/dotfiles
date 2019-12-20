@@ -25,6 +25,7 @@ zplugin snippet OMZ::lib/key-bindings.zsh
 zplugin wait lucid for \
   OMZ::plugins/common-aliases/common-aliases.plugin.zsh \
   OMZ::plugins/git/git.plugin.zsh \
+  OMZ::plugins/ssh-agent/ssh-agent.plugin.zsh \
   OMZ::plugins/tmux/tmux.plugin.zsh
 
 zplugin ice wait lucid blockf atpull'zplugin creinstall -q .'

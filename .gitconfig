@@ -1,3 +1,5 @@
 [user]
 	email = chris@error.cm
 	name = Christopher Mckay
+[core]
+	excludesfile = /home/chris/.gitignore_global

@@ -1,0 +1,24 @@
+source ~/.vimrc.keymap
+
+set clipboard=unnamed,autoselect
+set surround
+set commentary
+set hlsearch
+set incsearch
+set ignorecase
+set smartcase
+
+" jump on code
+nnoremap gd :<C-u>action GotoDeclaration<CR>
+nnoremap gs :<C-u>action GotoSuperMethod<CR>
+nnoremap gi :<C-u>action GotoImplementation<CR>
+nnoremap gf :<C-u>action GotoFile<CR>
+nnoremap gb :<C-u>action JumpToLastChange<CR>
+nnoremap gu :<C-u>action ShowUsages<CR>
+nnoremap gt :<C-u>action GotoTest<CR>
+nnoremap gh :<C-u>action Back<CR>
+nnoremap gl :<C-u>action Forward<CR>
+
+" code editing
+nnoremap == :<C-u>action ReformatCode<CR>
+vnoremap == :<C-u>action ReformatCode<CR>

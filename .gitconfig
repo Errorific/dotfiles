@@ -3,3 +3,4 @@
 	name = Christopher Mckay
 [core]
 	excludesfile = /home/chris/.gitignore_global
+	autocrlf = input

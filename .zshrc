@@ -36,3 +36,10 @@ zplugin light zsh-users/zsh-completions
 
 autoload -Uz compinit
 compinit
+
+export PYENV_ROOT="$HOME/.pyenv"
+if [ -s $PYENV_ROOT ]; then PATH="$PYENV_ROOT/bin:$PATH"; fi
+if command -v pyenv 1>/dev/null 2>&1; then eval "$(pyenv init -)"; fi
+if command -v pyenv 1>/dev/null 2>&1; then eval "$(pyenv virtualenv-init -)"; fi
+
+alias gcd='git checkout development'

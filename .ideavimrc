@@ -1,4 +1,6 @@
-source ~/.vimrc.keymap
+" source ~/.vimrc.keymap
+
+let mapleader=" "
 
 set clipboard=unnamed,autoselect,ideaput
 set ideajoin
@@ -10,6 +12,8 @@ set incsearch
 set ignorecase
 set smartcase
 set ideastatusicon=gray
+set NERDTree
+set easymotion
 
 " jump on code
 nnoremap gd :<C-u>action GotoDeclaration<CR>
@@ -25,3 +29,6 @@ nnoremap gl :<C-u>action Forward<CR>
 " code editing
 nnoremap == :<C-u>action ReformatCode<CR>
 vnoremap == :<C-u>action ReformatCode<CR>
+
+map <leader>nt :NERDTree<CR>
+map <leader>nh :NERDTreeClose<CR>

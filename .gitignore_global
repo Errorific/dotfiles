@@ -1,3 +1,7 @@
 .idea
 .nvmrc
 .env
+.yalc
+yalc.lock
+venv
+.DS_Store

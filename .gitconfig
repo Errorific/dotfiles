@@ -3,7 +3,6 @@
 	name = Christopher Mckay
 [core]
 	excludesfile = ~/.gitignore_global
-	autocrlf = input
 [pull]
 	ff = only
 [alias]
@@ -11,3 +10,5 @@
 
 [init]
 	defaultBranch = trunk
+[push]
+	autoSetupRemote = true

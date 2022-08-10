@@ -7,35 +7,36 @@ fi
 
 DISABLE_AUTO_TITLE=true
 
-# install zplugin
-if [[ ! -d ~/.zplugin/bin ]];then
-    mkdir ~/.zplugin
-    git clone https://github.com/zdharma/zplugin.git ~/.zplugin/bin
+# install zinit
+if [[ ! -d ~/.zinit/bin ]];then
+    mkdir ~/.zinit
+    git clone https://github.com/zdharma-continuum/zinit.git ~/.zinit/bin
 fi
 
-source ~/.zplugin/bin/zplugin.zsh
+source ~/.zinit/bin/zinit.zsh
 
 setopt auto_cd
 
-zplugin ice depth=1; zplugin light romkatv/powerlevel10k
+zinit ice depth=1; zinit light romkatv/powerlevel10k
 
-zplugin snippet OMZ::lib/completion.zsh
-zplugin snippet OMZ::lib/directories.zsh
-zplugin snippet OMZ::lib/history.zsh
-zplugin snippet OMZ::lib/key-bindings.zsh
+zinit snippet OMZ::lib/completion.zsh
+zinit snippet OMZ::lib/directories.zsh
+zinit snippet OMZ::lib/history.zsh
+zinit snippet OMZ::lib/key-bindings.zsh
 
-zplugin wait lucid for \
+zinit wait lucid for \
   OMZ::plugins/brew/brew.plugin.zsh \
   OMZ::plugins/common-aliases/common-aliases.plugin.zsh \
   OMZ::plugins/dotenv/dotenv.plugin.zsh \
   OMZ::plugins/git/git.plugin.zsh \
-  OMZ::plugins/ssh-agent/ssh-agent.plugin.zsh \
-  OMZ::plugins/tmux/tmux.plugin.zsh
+  OMZ::plugins/ssh-agent/ssh-agent.plugin.zsh
 
-zplugin ice wait lucid blockf atpull'zplugin creinstall -q .'
-zplugin light zsh-users/zsh-completions
-zplugin load zsh-users/zsh-autosuggestions
-zplugin load zsh-users/zsh-syntax-highlighting
+zinit ice svn pick"tmux.plugin.zsh"
+zinit snippet OMZ::plugins/tmux
+zinit ice wait lucid blockf atpull'zinit creinstall -q .'
+zinit light zsh-users/zsh-completions
+zinit load zsh-users/zsh-autosuggestions
+zinit load zsh-users/zsh-syntax-highlighting
 
 # To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
 [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
@@ -59,3 +60,6 @@ export NVM_DIR="$HOME/.nvm"
 
 autoload -U +X bashcompinit && bashcompinit
 complete -o nospace -C /usr/local/bin/terraform terraform
+
+test -e "${HOME}/.iterm2_shell_integration.zsh" && source "${HOME}/.iterm2_shell_integration.zsh"
+

@@ -1,5 +1,6 @@
 .idea
 .nvmrc
+.envrc
 .env
 .yalc
 yalc.lock

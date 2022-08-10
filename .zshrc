@@ -1,65 +1,128 @@
-# Enable Powerlevel10k instant prompt. Should stay close to the top of ~/.zshrc.
-# Initialization code that may require console input (password prompts, [y/n]
-# confirmations, etc.) must go above this block, everything else may go below.
-if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]; then
-  source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
-fi
+# Personal Zsh configuration file. It is strongly recommended to keep all
+# shell customization and configuration (including exported environment
+# variables such as PATH) in this file or in files source by it.
+#
+# Documentation: https://github.com/romkatv/zsh4humans/blob/v5/README.md.
 
-DISABLE_AUTO_TITLE=true
+# NVM plugin config
+# NVM_AUTOLOAD=1
+NVM_LAZY=1
 
-# install zinit
-if [[ ! -d ~/.zinit/bin ]];then
-    mkdir ~/.zinit
-    git clone https://github.com/zdharma-continuum/zinit.git ~/.zinit/bin
-fi
+# Periodic auto-update on Zsh startup: 'ask' or 'no'.
+# You can manually run `z4h update` to update everything.
+zstyle ':z4h:' auto-update      'no'
+# Ask whether to auto-update this often; has no effect if auto-update is 'no'.
+zstyle ':z4h:' auto-update-days '28'
 
-source ~/.zinit/bin/zinit.zsh
+# Start tmux if not already in tmux.
+# zstyle ':z4h:' start-tmux       command tmux -u new -A -D -t z4h
 
-setopt auto_cd
+# enable iterm integration
+zstyle ':z4h:' iterm2-integration 'yes'
 
-zinit ice depth=1; zinit light romkatv/powerlevel10k
+# Move prompt to the bottom when zsh starts and on Ctrl+L.
+zstyle ':z4h:' prompt-at-bottom 'yes'
 
-zinit snippet OMZ::lib/completion.zsh
-zinit snippet OMZ::lib/directories.zsh
-zinit snippet OMZ::lib/history.zsh
-zinit snippet OMZ::lib/key-bindings.zsh
+# Keyboard type: 'mac' or 'pc'.
+zstyle ':z4h:bindkey' keyboard  'mac'
 
-zinit wait lucid for \
-  OMZ::plugins/brew/brew.plugin.zsh \
-  OMZ::plugins/common-aliases/common-aliases.plugin.zsh \
-  OMZ::plugins/dotenv/dotenv.plugin.zsh \
-  OMZ::plugins/git/git.plugin.zsh \
-  OMZ::plugins/ssh-agent/ssh-agent.plugin.zsh
+# Right-arrow key accepts one character ('partial-accept') from
+# command autosuggestions or the whole thing ('accept')?
+zstyle ':z4h:autosuggestions' forward-char 'accept'
 
-zinit ice svn pick"tmux.plugin.zsh"
-zinit snippet OMZ::plugins/tmux
-zinit ice wait lucid blockf atpull'zinit creinstall -q .'
-zinit light zsh-users/zsh-completions
-zinit load zsh-users/zsh-autosuggestions
-zinit load zsh-users/zsh-syntax-highlighting
+# Recursively traverse directories when TAB-completing files.
+zstyle ':z4h:fzf-complete' recurse-dirs 'no'
 
-# To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
-[[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
-if command -v thefuck &> /dev/null; then eval $(thefuck --alias); fi
+# Enable direnv to automatically source .envrc files.
+zstyle ':z4h:direnv'         enable 'yes'
+# Show "loading" and "unloading" notifications from direnv.
+zstyle ':z4h:direnv:success' notify 'yes'
 
-autoload -Uz compinit
-compinit
+# Enable ('yes') or disable ('no') automatic teleportation of z4h over
+# SSH when connecting to these hosts.
+zstyle ':z4h:ssh:example-hostname1'   enable 'yes'
+zstyle ':z4h:ssh:*.example-hostname2' enable 'no'
+# The default value if none of the overrides above match the hostname.
+zstyle ':z4h:ssh:*'                   enable 'no'
 
-export PYENV_ROOT="$HOME/.pyenv"
-if [ -s $PYENV_ROOT ]; then PATH="$PYENV_ROOT/bin:$PATH"; fi
-if command -v pyenv 1>/dev/null 2>&1; then eval "$(pyenv init --path)"; fi
-if command -v pyenv 1>/dev/null 2>&1; then eval "$(pyenv virtualenv-init -)"; fi
+# Send these files over to the remote host when connecting over SSH to the
+# enabled hosts.
+zstyle ':z4h:ssh:*' send-extra-files '~/.nanorc' '~/.env.zsh'
 
-if [ -s "$HOME/.foreman/bin" ]; then PATH="$HOME/.foreman/bin:$PATH"; fi
+# Clone additional Git repositories from GitHub.
+#
+# This doesn't do anything apart from cloning the repository and keeping it
+# up-to-date. Cloned files can be used after `z4h init`. This is just an
+# example. If you don't plan to use Oh My Zsh, delete this line.
+z4h install ohmyzsh/ohmyzsh || return
+z4h install zsh-users/zsh-history-substring-search || return
+z4h install zsh-users/zsh-completions || return
 
-alias gcd='git checkout development'
+# Install or update core components (fzf, zsh-autosuggestions, etc.) and
+# initialize Zsh. After this point console I/O is unavailable until Zsh
+# is fully initialized. Everything that requires user interaction or can
+# perform network I/O must be done above. Everything else is best done below.
+z4h init || return
 
-export NVM_DIR="$HOME/.nvm"
-[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
-[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
+# Extend PATH.
+path=(~/bin ~/.local/bin $path)
 
-autoload -U +X bashcompinit && bashcompinit
-complete -o nospace -C /usr/local/bin/terraform terraform
+# Export environment variables.
+export GPG_TTY=$TTY
 
-test -e "${HOME}/.iterm2_shell_integration.zsh" && source "${HOME}/.iterm2_shell_integration.zsh"
+# Source additional local files if they exist.
+z4h source ~/.env.zsh
 
+# Use additional Git repositories pulled in with `z4h install`.
+#
+# This is just an example that you should delete. It does nothing useful.
+z4h source ohmyzsh/ohmyzsh/lib/directories.zsh
+z4h source ohmyzsh/ohmyzsh/lib/completion.zsh
+z4h load   ohmyzsh/ohmyzsh/plugins/git
+z4h load   ohmyzsh/ohmyzsh/plugins/brew
+z4h load   ohmyzsh/ohmyzsh/plugins/common-aliases
+z4h load   ohmyzsh/ohmyzsh/plugins/ssh-agent
+z4h load   ohmyzsh/ohmyzsh/plugins/tmux
+z4h load   ohmyzsh/ohmyzsh/plugins/nvm
+z4h load   ohmyzsh/ohmyzsh/plugins/pyenv
+z4h load   zsh-users/zsh-history-substring-search
+
+# Define key bindings.
+z4h bindkey undo Ctrl+/   Shift+Tab # undo the last command line change
+z4h bindkey redo Option+/           # redo the last undone command line change
+
+z4h bindkey z4h-cd-back    Shift+Left   # cd into the previous directory
+z4h bindkey z4h-cd-forward Shift+Right  # cd into the next directory
+z4h bindkey z4h-cd-up      Shift+Up     # cd into the parent directory
+z4h bindkey z4h-cd-down    Shift+Down   # cd into a child directory
+
+# Autoload functions.
+autoload -Uz zmv
+
+# Define functions and completions.
+function md() { [[ $# == 1 ]] && mkdir -p -- "$1" && cd -- "$1" }
+compdef _directories md
+
+# Define named directories: ~w <=> Windows home directory on WSL.
+[[ -z $z4h_win_home ]] || hash -d w=$z4h_win_home
+
+# Define aliases.
+alias tree='tree -a -I .git'
+
+# Add flags to existing aliases.
+alias ls="${aliases[ls]:-ls} -A"
+
+# Set shell options: http://zsh.sourceforge.net/Doc/Release/Options.html.
+setopt glob_dots     # no special treatment for file names with a leading dot
+setopt no_auto_menu  # require an extra TAB press to open the completion menu
+
+#export PYENV_ROOT="$HOME/.pyenv"
+#if [ -s $PYENV_ROOT ]; then PATH="$PYENV_ROOT/bin:$PATH"; fi
+#if command -v pyenv 1>/dev/null 2>&1; then eval "$(pyenv init --path)"; fi
+#if command -v pyenv 1>/dev/null 2>&1; then eval "$(pyenv virtualenv-init -)"; fi
+
+source ~/.zsh.fzf.colors
+
+eval $(thefuck --alias)
+
+export PATH="$HOME/.yarn/bin:$HOME/.config/yarn/global/node_modules/.bin:$PATH"

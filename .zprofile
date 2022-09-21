@@ -11,7 +11,7 @@ if [ -s "$HOME/.foreman/bin" ]; then PATH="$HOME/.foreman/bin:$PATH"; fi
 
 if [[ -f "$HOME/.nvm/nvm.sh" ]]; then
   # Load nvm if it exists in $NVM_DIR
-  source "$HOME/.nvm/nvm.sh --no-use"}
+  source "$HOME/.nvm/nvm.sh" "--no-use"
 fi
 
 
